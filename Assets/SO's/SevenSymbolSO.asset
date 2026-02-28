@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3e13b66f2d9262488dfb1e3f98bafa7, type: 3}
+  m_Name: SevenSymbolSO
+  m_EditorClassIdentifier: 
+  symbolName: Seven
+  symbolID: 2
+  symbolSprite: {fileID: 2193077994593488821, guid: d704c0473ee35514a98de14e7e238dd7, type: 3}
+  payoutMultiplier: 10
+  isWildcard: 0
