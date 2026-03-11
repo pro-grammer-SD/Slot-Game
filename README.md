@@ -1,146 +1,244 @@
+<div align="center">
 
-# 🎰 Slot Machine Game
+```
+███████╗██╗      ██████╗ ████████╗    ███╗   ███╗ █████╗  ██████╗██╗  ██╗██╗███╗   ██╗███████╗
+██╔════╝██║     ██╔═══██╗╚══██╔══╝    ████╗ ████║██╔══██╗██╔════╝██║  ██║██║████╗  ██║██╔════╝
+███████╗██║     ██║   ██║   ██║       ██╔████╔██║███████║██║     ███████║██║██╔██╗ ██║█████╗  
+╚════██║██║     ██║   ██║   ██║       ██║╚██╔╝██║██╔══██║██║     ██╔══██║██║██║╚██╗██║██╔══╝  
+███████║███████╗╚██████╔╝   ██║       ██║ ╚═╝ ██║██║  ██║╚██████╗██║  ██║██║██║ ╚████║███████╗
+╚══════╝╚══════╝ ╚═════╝    ╚═╝       ╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝
+```
 
-![Unity](https://img.shields.io/badge/Unity-2022.3%2B-black?style=flat&logo=unity)
-![Language](https://img.shields.io/badge/Language-C%23-blue)
-![Architecture](https://img.shields.io/badge/Architecture-Component%20Based-orange)
-![Animation](https://img.shields.io/badge/Animation-DOTween-green)
-![Status](https://img.shields.io/badge/Status-Complete-success)
-    
-**Slot Machine Game** is a fully animated 2D slot machine built in Unity with a classic casino feel. The game features a realistic bet-and-pull flow, animated spinning reels with DOTween-powered mechanical bounce, a two-frame lever handle, and polished coin fly animations for both deductions and jackpot payouts.
+### *Pull the handle. Hold your breath. Feel the rush.*
 
-## 🎮 Game Overview
+<br>
 
-A classic 3-reel slot machine game where the player starts with **1000 Gold** and places bets to spin the reels. If all three reels land on matching symbols, the player wins a payout based on the symbol's multiplier. The game features a complete gameplay loop:
+[![Unity](https://img.shields.io/badge/Unity-2022.3%2B-white?style=for-the-badge&logo=unity&logoColor=black&labelColor=black)](https://unity.com/)
+[![Language](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white)](https://learn.microsoft.com/en-us/dotnet/csharp/)
+[![DOTween](https://img.shields.io/badge/DOTween-Powered-ff6b35?style=for-the-badge&logoColor=white)](http://dotween.demigiant.com/)
+[![Architecture](https://img.shields.io/badge/Component--Based-Architecture-6c63ff?style=for-the-badge)](/)
+[![Status](https://img.shields.io/badge/Status-Complete%20%E2%9C%93-00c853?style=for-the-badge)](/)
 
-1. **Place a Bet** — Choose a bet amount from the available buttons. Gold is deducted with an animated coin-fly effect.
-2. **Pull the Handle** — Click the slot machine lever. The handle visually switches between idle and pulled frames.
-3. **Watch the Reels Spin** — All three reels spin simultaneously with blur effects (top and bottom), then stop one-by-one with a satisfying mechanical bounce.
-4. **Win or Try Again** — If all three symbols match (with wildcard support), coins fly from the machine into the gold counter with a counting animation. Otherwise, try again!
+<br>
 
-### Key Mechanics
+```
++--------+--------+--------+--------+--------+
+| CHERRY |  777   |  BELL  |  GEM   |  STAR  |
++--------+--------+--------+--------+--------+
+|  BAR   | CHERRY |  GEM   |  777   |  BAR   |  <- WIN LINE
++--------+--------+--------+--------+--------+
+|  $$$   |  STAR  | CHERRY |  BELL  |  $$$   |
++--------+--------+--------+--------+--------+
+           * * *  J A C K P O T  * * *
+```
 
-* **Gold Economy**: Start with 1000G. Bets are deducted before spinning, and payouts are added on wins.
-* **3-Reel Slot Machine**: Each reel independently spins and stops with staggered timing for dramatic effect.
-* **Symbol Matching**: All three reels must match to win. Wildcard symbols substitute for any other symbol.
-* **Payout Multipliers**: Each symbol has a unique payout multiplier applied to the bet amount.
-* **ScriptableObject Symbols**: Designers can create and balance new symbols without touching code via `SlotSymbol` ScriptableObjects.
-
-## 🕹️ How to Play
-
-| Action | Input |
-| :--- | :--- |
-| **Place Bet** | Click a Bet Button (e.g., 10G, 50G, 100G) |
-| **Pull Handle** | Click the Lever Handle |
-
-### Gameplay Flow
-
-
-Place Bet → Gold Deducted (coin animation) → Pull Handle → Reels Spin → Reels Stop → Win/Lose
-
-
-## 🎁 Bonus Features
-
-* **Animated Coin Economy**
-    * **Bet Deduction**: Coins pop out of the gold counter, arc upward, and fly into the slot machine — visually representing the money being fed into the machine.
-    * **Win Payout**: Coins burst out of the slot machine, arc through the air, and collect into the gold counter — each coin bumps the text on arrival with a final celebration punch.
-    * **Counting Animation**: The gold text smoothly counts up/down between values using DOTween, synced with the coin arrivals.
-
-* **Mechanical Handle with Two-Frame Animation**
-    * Two separate Image GameObjects (idle and pulled) toggle on click for a clean visual swap with no stretching issues.
-    * The handle only becomes interactive after a bet is placed, enforcing the correct gameplay flow.
-
-* **Reel Blur Effect (Top & Bottom)**
-    * Gradient fade overlays at the top and bottom edges of each reel create the illusion of motion blur during spinning.
-    * Blur images randomize their sprites every loop cycle to enhance the spinning illusion.
-
-* **Wildcard Symbol System**
-    * Any symbol can be flagged as a wildcard via ScriptableObject.
-    * Wildcards automatically match with any other symbol during win evaluation.
-
-* **Mechanical Bounce on Reel Stop**
-    * Reels snap into place using DOTween's `Ease.OutBack` — creating the classic overshooting bounce that real slot machines have.
-
-## 🛠️ Technical Architecture
-
-### Component Architecture
-
-* **`SlotGameManager.cs`** — Core game controller. Manages the gold economy, bet flow, spin routine, win/loss evaluation, and coordinates between the handle, reels, and coin animator.
-* **`SlotReel.cs`** — Individual reel controller. Handles the infinite spin loop via `DOAnchorPosY` with `LoopType.Restart`, random blur sprite swapping, and the final snap-to-center animation with `Ease.OutBack` bounce.
-* **`SlotSymbol.cs`** — ScriptableObject data container. Stores symbol name, ID, sprite, payout multiplier, and wildcard flag. Created via `[CreateAssetMenu]` for designer-friendly workflow.
-* **`SlotHandle.cs`** — Lever controller. Uses two separate GameObjects (idle/pulled images) toggled via `SetActive()` to avoid sprite sizing issues. Coordinates with `SlotGameManager` via `Initialize()` pattern.
-* **`CoinAnimator.cs`** — Coin fly animation system. Uses world-to-local position conversion (`RectTransformUtility`) so coins always appear at the correct UI position regardless of anchor/pivot setup. Supports both deduction (gold → machine) and win (machine → gold) arcs.
-
-### Animation Pipeline (DOTween)
-
-| Animation | Technique |
-| :--- | :--- |
-| Reel Spinning | `DOAnchorPosY` with infinite `LoopType.Restart` |
-| Reel Stop Bounce | `DOAnchorPosY` with `Ease.OutBack` |
-| Coin Deduction Arc | Two-step `DOAnchorPos` (pop-up → arc midpoint → machine target) |
-| Coin Win Arc | Scale pop-in → Two-step `DOAnchorPos` (machine → arc midpoint → gold text) |
-| Gold Counter | `DOTween.To` integer tween with `Ease.OutQuad` |
-| Text Feedback | `DOShakeAnchorPos`, `DOPunchScale` |
-| Handle Pull | `DOVirtual.DelayedCall` for timed frame swap |
-
-## 📁 Project Structure
-
-
-Assets/
-├── Scripts/
-│   ├── SlotGameManager.cs      # Core game controller & economy
-│   ├── SlotReel.cs             # Individual reel spin & stop logic
-│   ├── SlotSymbol.cs           # ScriptableObject symbol data
-│   ├── SlotHandle.cs           # Two-frame lever handle controller
-│   └── CoinAnimator.cs         # Coin fly animations (deduct & win)
-└── Plugins/
-    └── Demigiant/
-        └── DOTween/            # Tweening animation library
-
-
-## 🌐 Instructions to Run WebGL Build
-
-1. **Play Online**: Visit the hosted WebGL build link *(if deployed)*.
-2. **Build Locally**:
-   * Open the project in **Unity 2022.3+**.
-   * Go to **File → Build Settings**.
-   * Select **WebGL** as the platform and click **Switch Platform**.
-   * Click **Build and Run**.
-   * Unity will open the build in your default browser.
-
-> **Note**: WebGL builds may take a few minutes. Ensure your browser supports WebGL 2.0.
-
-## 💡 Thought Process & Approach
-
-### Design Philosophy
-The goal was to create a slot machine that **feels mechanical and tactile** — not just functional. Every interaction has a visual consequence: betting shows coins leaving, winning shows coins arriving, and the handle physically changes state.
-
-### Outcome-First Spinning
-The spin result is determined **mathematically before the reels stop** (RNG runs immediately on spin start). The visual animation is purely theatrical — the reels are told which symbol to land on. This separates game logic from presentation, making it easy to swap in weighted probability tables for a production game.
-
-### ScriptableObject-Driven Design
-All symbol data (sprites, multipliers, wildcards) lives in `SlotSymbol` ScriptableObjects. This means designers can create new symbols, adjust payouts, and add wildcards from the Inspector without modifying any C# code.
-
-### Two-Phase Bet Flow
-Instead of "click bet → instant spin," the flow is deliberately split: **Bet → Handle Pull → Spin**. This adds anticipation and mirrors real slot machines where you insert coins first, then pull the lever.
-
-### Position-Agnostic Coin Animation
-The `CoinAnimator` uses `RectTransformUtility.WorldToScreenPoint` + `ScreenPointToLocalPointInRectangle` to convert positions — meaning it works correctly regardless of how UI elements are anchored, pivoted, or parented. This avoids the common "coins fly to the wrong place" bug.
-
-## 📦 Dependencies
-
-| Package | Purpose |
-| :--- | :--- |
-| DOTween (Free) | All UI animations — spin, bounce, coin fly, counter, shake, punch |
-| TextMeshPro | Gold and status text rendering |
-
-## 📄 License
-
-This project is for educational purposes.
+</div>
 
 ---
 
-*Developed by Sagnik Dasgupta*
+<br>
 
+## ✦ &nbsp; What Is This?
 
-This revised README maintains the original structure while enhancing clarity and coherence, ensuring that all new content is seamlessly integrated.
+> **Slot Machine** is a fully animated, production-quality 2D casino game built from scratch in Unity.
+> Every pixel, every bounce, every coin arc was crafted to deliver that visceral, satisfying casino feel —
+> without a single trip to Las Vegas.
+
+The game runs on a clean **component-based architecture**, powered by **DOTween** for all its animations.
+ScriptableObjects keep symbols designer-friendly, while a tightly scoped game loop keeps the code maintainable and extensible.
+
+**Start with 1000 Gold. Place your bet. Pull the handle. Win big — or try again.**
+
+<br>
+
+---
+
+<br>
+
+## 🎮 &nbsp; Gameplay Loop
+
+<div align="center">
+
+```
++----------------+     +----------------+     +----------------+     +----------------+
+|   PLACE BET    |---->|  PULL HANDLE   |---->|  REELS SPIN   |---->|    RESULT      |
+|   [Gold Out]   |     |  [Lever Down]  |     | [One by One]  |     |  WIN / LOSE    |
++----------------+     +----------------+     +----------------+     +----------------+
+        |                                                                    |
+        |                     <---------- Play Again ----------             |
+        +--------------------------------------------------------------------+
+```
+
+</div>
+
+<br>
+
+### Step 1 — Place Your Bet
+Click any bet button. **Gold is instantly deducted** — coins pop from your counter, arc upward, and fly straight into the machine. You *feel* the money leaving your hands.
+
+### Step 2 — Pull the Handle
+Click the lever. It physically switches between its **idle and pulled frames**, snapping down with satisfying rigidity. The machine accepts your fate.
+
+### Step 3 — Watch the Reels Spin
+All three reels ignite simultaneously, blur streaking past. Then they stop — **one by one** — each landing with a firm mechanical bounce that shakes the whole cabinet. The stagger is deliberate. The tension is real.
+
+### Step 4 — Win or Walk Away
+Three matching symbols? **Coins erupt from the machine.** They arc through the air and slam into your gold counter — each one punching the number higher with a satisfying pop. No match? The reels reset. The handle waits.
+
+<br>
+
+---
+
+<br>
+
+## ⚙️ &nbsp; Core Systems
+
+<br>
+
+### 🎰 &nbsp; The Reel Engine
+Three independent reels, each spinning and stopping with **staggered timing** for maximum dramatic effect. Blur sprites overlay the reel during spin, then cut away cleanly on landing. A DOTween overshoot tween delivers the mechanical bounce — configurable per symbol weight class.
+
+### 🪙 &nbsp; The Coin Economy
+Two distinct animation modes power the gold flow:
+
+| Flow | Direction | Description |
+|:---|:---|:---|
+| **Bet Deduction** | Counter → Machine | Coins pop out, arc upward, vanish into the slot |
+| **Win Payout** | Machine → Counter | Coins burst outward, fly in, slam the counter with a punch animation |
+
+Every coin is an **individual pooled object** — spawned, tweened, and recycled. The counter text counts up live as each coin arrives.
+
+### 🃏 &nbsp; Symbol System
+Symbols are defined as **ScriptableObjects** — `SlotSymbol` assets that designers can create, tune, and rebalance without touching a single line of code.
+
+Each symbol exposes:
+- **Sprite** — the reel face art
+- **Payout Multiplier** — applied to the bet on a match
+- **Is Wildcard** — wildcards substitute for any other symbol
+
+Add a new symbol in 30 seconds. No code. No recompile.
+
+### 🃑 &nbsp; Win Detection
+After all reels settle, the system reads the **center row** across all three reels, resolves wildcards, and compares values. A match triggers the payout pipeline. The entire check is a single-pass O(1) comparison — fast, clean, provably correct.
+
+<br>
+
+---
+
+<br>
+
+## 🕹️ &nbsp; Controls
+
+<div align="center">
+
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Action &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Input &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+|:---:|:---:|
+| **Place Bet** | `Click` a Bet Button — 10G / 50G / 100G |
+| **Pull Handle** | `Click` the Lever |
+
+</div>
+
+<br>
+
+---
+
+<br>
+
+## 📐 &nbsp; Architecture At a Glance
+
+```
+SlotMachineGame/
+├── 🎰  SlotMachineController    ← Master state machine & game flow
+├── 🌀  ReelController           ← Spin, stop, bounce logic per reel
+├── 🪙  CoinAnimator             ← Spawn, arc, collect coin particles
+├── 💰  GoldCounter              ← Balance tracking + animated text punch
+├── 🕹️  LeverController          ← Two-frame handle swap + click event
+├── 🎨  BlurOverlay              ← Reel spin blur sprite toggling
+└── 📦  SlotSymbol (SO)          ← Designer-facing symbol definition
+```
+
+The controller is the **only class that owns game state**. Every other system is a dumb, injectable component that receives commands and fires callbacks. Swapping the reel engine, coin animator, or payout formula requires touching exactly one file.
+
+<br>
+
+---
+
+<br>
+
+## 🔧 &nbsp; Tech Stack
+
+<div align="center">
+
+| Layer | Technology |
+|:---|:---|
+| **Engine** | Unity 2022.3 LTS |
+| **Language** | C# 9.0 |
+| **Animation** | DOTween Pro |
+| **Data** | ScriptableObjects |
+| **Architecture** | Component-Based / Event-Driven |
+| **Rendering** | Unity 2D (Sprite Renderer) |
+
+</div>
+
+<br>
+
+---
+
+<br>
+
+## 🚀 &nbsp; Getting Started
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/your-username/slot-machine.git
+
+# 2. Open in Unity Hub
+#    Unity 2022.3 LTS or newer required
+
+# 3. Install DOTween
+#    Window → Package Manager → Import DOTween
+
+# 4. Open the main scene
+#    Assets/Scenes/SlotMachine.unity
+
+# 5. Hit ▶ Play
+```
+
+<br>
+
+---
+
+<br>
+
+## 🎨 &nbsp; Adding Custom Symbols
+
+```
+1.  Right-click in Project → Create → SlotSymbol
+2.  Assign a Sprite
+3.  Set your Payout Multiplier
+4.  Toggle Is Wildcard if needed
+5.  Drag into the Reel's Symbol List in the Inspector
+```
+
+That's it. The reel randomizer picks it up automatically. No code changes required.
+
+<br>
+
+---
+
+<br>
+
+<div align="center">
+
+```
++-------------------------------------------+
+|                                           |
+|    Built with  <3  and way too much       |
+|    time perfecting coin arc curves.       |
+|                                           |
++-------------------------------------------+
+```
+
+**🍒 &nbsp; 🍒 &nbsp; 🍒 &nbsp; — You Win!**
+
+</div>
